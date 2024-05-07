@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Funcionário{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Funcionário</h1>
+    <form name="formAdicionar" id="formAdicionar" >
+        <div class="mb-3">
+            <label for="id" class="form-label">Código</label>
+            <input type="text" class="form-control" name="id" id="id" value="" placeholder="Código" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome Funcionário</label>
+            <input type="text" class="form-control" name="nome" id="nome" value="" placeholder="Nome Funcionário" maxlength="100" autofocus required>
+        </div>
+        <div class="mb-3">
+            <label for="matricula" class="form-label">Matrícula</label>
+            <input type="text" class="form-control" name="matricula" id="matricula" value="" placeholder="Matrícula" maxlength="15" required>
+        </div>
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" name="cpf" id="cpf" value="" placeholder="CPF" maxlength="14" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="tel" class="form-control" name="telefone" id="telefone" value=""  placeholder="Telefone" maxlength="15" required>
+        </div>
+        <div class="mb-3">
+            <label for="grupo" class="form-label bg-body-dark">Grupo</label>
+            <select class="form-select bg-body-dark" name="grupo" id="grupo" aria-label="Grupo">
+                <option value="0" class="bg-body-dark">Atendente</option>
+                <option value="1" class="bg-body-dark">Caixa</option>
+                <option value="2" class="bg-body-dark">Adm</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" name="senha" id="senha" value="Bolinhas" placeholder="Senha" required>
+        </div>
+        <div class="mb-3">
+            <label for="resenha" class="form-label">Confirme a Senha</label>
+            <input type="password" class="form-control" name="resenha" id="resenha" value="Bolinhas" placeholder="Confirme a Senha" required>
+        </div>
+        <button type='submit' class="btn btn-primary w-100" name='salvarFuncionarioDB' id='salvarFuncionarioDB'>
+            <i class='fas fa-save'></i> Salvar
+        </button>
+    </form>
+</div>
+
+<script src="../../static/helper/mask.js"></script>
+{% endblock %}

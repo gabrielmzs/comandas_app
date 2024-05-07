@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Produto{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Produto</h1>
+    <form name="formAdicionar" id="formAdicionar" action="" method="POST" class="mt-3">
+        <div class="mb-3">
+            <label for="id" class="form-label">Código</label>
+            <input type="text" class="form-control" name="id" id="id" value="" placeholder="Código" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome do Produto</label>
+            <input type="text" class="form-control" name="nome" id="nome" value="" placeholder="Nome do Produto" maxlength="100" autofocus required>
+        </div>
+        <div class="mb-3">
+            <label for="descrição" class="form-label">Descrição</label>
+            <input type="text" class="form-control" name="descrição" id="descrição" value="" placeholder="Descrição" maxlength="100" required>
+        </div>
+        <div class="mb-3">
+            <label for="valor" class="form-label">Valor</label>
+            <input type="text" class="form-control" name="valor" id="valor" value="" placeholder="Valor" maxlength="15" required>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Imagem</label>
+            <input type="file" class="form-control" name="image" id="image" required>
+        </div>
+        <button type="submit" name="salvaProdutoDB" id="salvaProdutoDB" class="btn btn-primary w-100">
+            <i class='fas fa-save'></i> Salvar
+        </button>
+    </form>
+</div>
+{% endblock %}

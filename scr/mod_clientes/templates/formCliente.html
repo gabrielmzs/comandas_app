@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Cliente{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Cliente</h1>
+    <form name="formAdicionar" id="formAdicionar" action="" method="POST">
+        <div class="mb-3">
+            <label for="id" class="form-label">Código</label>
+            <input type="text" class="form-control" name="id" id="id" value="" placeholder="Código" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome Cliente</label>
+            <input type="text" class="form-control" name="nome" id="nome" value="" placeholder="Nome Cliente" maxlength="100" autofocus required>
+        </div>
+        <div class="mb-3">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="text" class="form-control" name="telefone" id="telefone" value="" placeholder="Telefone" maxlength="15" required>
+        </div>
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" name="cpf" id="cpf" value="" placeholder="CPF" maxlength="14" required>
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" name="senha" id="senha" value="" placeholder="Senha" required>
+        </div>
+        <div class="mb-3">
+            <label for="resenha" class="form-label">Confirme a Senha</label>
+            <input type="password" class="form-control" name="resenha" id="resenha" value="" placeholder="Confirme a Senha" required>
+        </div>
+        <button type='submit' class="btn btn-primary" name='salvarClienteDB' id='salvarClienteDB'>
+            <i class='fas fa-save'></i> Salvar
+        </button>
+    </form>
+</div>
+{% endblock %}

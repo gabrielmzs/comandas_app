@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}index{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class=" d-flex align-items-center justify-content-center flex-column gap-4">
+            <h2>Oi! Eu sou o pastelzinho, seu amiguinho.</h2>
+            <img src="../../static/pastelzinho.jpg" alt="Eu sou o pastelzinho seu amiguinho" class="img-fluid">
+            <div class="d-flex align-items-center justify-content-center">
+                <ul class="nav flex-column flex-md-row justify-content-between align-items-center">
+                    <li class="nav-item">
+                        <a class="btn btn-primary mx-1"
+                            href="{{ url_for('funcionario.formListaFuncionario') }}">Funcionários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary mx-1" href="{{ url_for('cliente.formListaCliente') }}">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary mx-1" href="{{ url_for('produto.formListaProduto') }}">Produtos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>Vc n tem permissão!</h1>
+        <h3>Não autorizado.</h3>
+    </div>
+</div>
+<figure>
+    <img src="{{ url_for('static', filename='401-error.jpeg') }}" alt="Erro 401">
+</figure>
+<div class="row">
+    <div class="col">
+        {# mostra a mensagem de erro retornada #}
+        <p>{{ erroHttp }}</p>
+    </div>
+</div>
+{% endblock %}
