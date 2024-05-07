@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Produto{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <p class="h1"> Produtos</p>
+        <a href="{{ url_for('produto.formProduto') }}" class="btn btn-primary">Novo Produto </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Código</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Imagem</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="align-middle text-center">
+                <th scope="row">1</th>
+                <td>001</td>
+                <td>Pastel de Carne</td>
+                <td>Pastel recheado com carne moída</td>
+                <td>R$ 5,00</td>
+                <td><img src="../../static/pastelcarne.jpg" alt="Imagem do Produto" class="img-thumbnail"
+                        style="width: 100px; height: auto;"></td>
+            </tr>
+            <tr class="align-middle text-center">
+                <th scope="row">1</th>
+                <td>002</td>
+                <td>Pastel de Queijo</td>
+                <td>Pastel recheado com queijo derretido</td>
+                <td>R$ 4,00</td>
+                <td><img src="../../static/pastelqueijo.jpg" alt="Imagem do Produto" class="img-thumbnail"
+                        style="width: 100px; height: auto;"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
