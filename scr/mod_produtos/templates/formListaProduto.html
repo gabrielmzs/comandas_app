@@ -9,7 +9,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
+
                 <th scope="col">Código</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Descrição</th>
@@ -18,24 +18,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="align-middle text-center">
-                <th scope="row">1</th>
-                <td>001</td>
-                <td>Pastel de Carne</td>
-                <td>Pastel recheado com carne moída</td>
-                <td>R$ 5,00</td>
+
+            {% if result %}
+            {% for row in result %}
+            <tr>
+                <th scope="row"> {{ row['id_produto'] }}</th>
+                <td> {{ row['nome'] }}</td>
+                <td> {{ row['descricao'] }}</td>
+                <td> {{ row['valor'] }}</td>
                 <td><img src="../../static/pastelcarne.jpg" alt="Imagem do Produto" class="img-thumbnail"
                         style="width: 100px; height: auto;"></td>
+
             </tr>
-            <tr class="align-middle text-center">
-                <th scope="row">1</th>
-                <td>002</td>
-                <td>Pastel de Queijo</td>
-                <td>Pastel recheado com queijo derretido</td>
-                <td>R$ 4,00</td>
-                <td><img src="../../static/pastelqueijo.jpg" alt="Imagem do Produto" class="img-thumbnail"
-                        style="width: 100px; height: auto;"></td>
-            </tr>
+            {% endfor %}
+            {% endif %}
+
         </tbody>
     </table>
 </div>
