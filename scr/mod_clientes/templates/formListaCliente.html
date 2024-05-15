@@ -12,44 +12,27 @@
 <table class="table mt-2">
     <thead>
         <tr>
-            <th scope="col">#</th>
+
             <th scope="col">Código</th>
             <th scope="col">Nome</th>
-            <th scope="col">Telefone</th>
             <th scope="col">CPF</th>
-            <th scope="col">Senha</th>
-            <th scope="col">Confirma Senha</th>
+            <th scope="col">Telefone</th>
+
         </tr>
     </thead>
     <tbody>
+        {% if result %}
+        {% for row in result %}
         <tr>
-            <th scope="row">1</th>
-            <td>001</td>
-            <td>Clebinho Pereira</td>
-            <td>(99) 99999-9999</td>
-            <td>123.456.789-00</td>
-            <td>senha1</td>
-            <td>senha1</td>
+            <th scope="row"> {{ row['id_cliente'] }}</th>
+            <td> {{ row['nome'] }}</td>
+            <td> {{ row['cpf'] }}</td>
+            <td> {{ row['telefone'] }}</td>
+
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>002</td>
-            <td>Maria Oliveira</td>
-            <td>(88) 88888-8888</td>
-            <td>987.654.321-00</td>
-            <td>senha2</td>
-            <td>senha2</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>003</td>
-            <td>José Santos</td>
-            <td>(77) 77777-7777</td>
-            <td>456.789.123-00</td>
-            <td>senha3</td>
-            <td>senha3</td>
-        </tr>
-        
+        {% endfor %}
+        {% endif %}
+
     </tbody>
 </table>
 

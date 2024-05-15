@@ -19,31 +19,23 @@
             </tr>
         </thead>
         <tbody>
+            {% if result %}
+            {% for row in result %}
             <tr>
-                <th scope="row">1</th>
-                <td>João Silva</td>
-                <td>12331</td>
-                <td class="cpf">123.456.789-00</td>
-                <td class="telefone">(11) 91234-5678</td>
-                <td>2</td>
+                <th scope="row"> {{ row['id_funcionario'] }}</th>
+                <td> {{ row['nome'] }}</td>
+                <td> {{ row['matricula'] }}</td>
+                <td> {{ row['cpf'] }}</td>
+                <td> {{ row['telefone'] }}</td>
+                <td> {{ row['grupo'] }}</td>
+                <td> {{ row['senha'] }}</td>
+                <td><i class="fas fa-edit"></i></td>
+                <td><i class='fas fa-trash'></i></td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Maria Oliveira</td>
-                <td>23456</td>
-                <td class="cpf">987.654.321-00</td>
-                <td class="telefone">(21) 99876-5432</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>José Santos</td>
-                <td>34567</td>
-                <td class="cpf">456.789.123-00</td>
-                <td class="telefone">(31) 98765-4321</td>
-                <td>4</td>
-            </tr>
+            {% endfor %}
+            {% endif %}
         </tbody>
+
     </table>
     {% endblock %}
     {% block js %}
