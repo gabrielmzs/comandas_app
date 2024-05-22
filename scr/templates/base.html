@@ -66,8 +66,13 @@
     </div>
 
     <script src="{{ url_for('static', filename='bootstrap-5.3.3-dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='fontawesome-free-6.5.2-web/js/all.js') }}"></script>
+    <script
+        src="{{ url_for('static', filename='fontawesome-free-6.5.2-web/fontawesome-free-6.5.2-web/js/all.js') }}"></script>
     <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+    
+
+
 
     <!-- redirect - request.args.get('msg' ou 'msgErro') -->
     {% if request.args.get('msg'): %}
@@ -80,7 +85,7 @@
     <script>
         Swal.fire("Erro", "{{ request.args.get('msgErro') }}", "error");
     </script>
-    
+
     <!-- render_template - msg ou msgErro -->
     {% elif msg: %}
     <h3>{{ msg }}</h3><br>
