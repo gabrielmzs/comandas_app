@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, session
-from settings import HOST, PORT, DEBUG
+from datetime import timedelta
+from settings import HOST, PORT, DEBUG, TEMPO_SESSION
+
 from mod_funcionario.funcionario import bp_funcionario
 from mod_produtos.produto import bp_produto
 from mod_clientes.cliente import bp_cliente
@@ -34,3 +36,11 @@ SESSION_COOKIE_SECURE='True'
 if __name__ == "__main__":
     """ Inicia o aplicativo WEB Flask """
     app.run(host=HOST, port=PORT, debug=DEBUG)
+
+# método para renovar o tempo da sessão
+@app.before_request
+def before_request():
+    session.permanent = True
+    session['tempo'] = int(TEMPO_SESSION)
+    # o padrão é 31 dias...
+    app.permanent_session_lifetime = timedelta(minutes=session['tempo'])
