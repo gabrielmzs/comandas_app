@@ -1,36 +1,37 @@
 {% extends "base.html" %}
+
 {% block title %}Cliente{% endblock %}
+
+{# ajusta as variáveis conforme novo ou edit #}
+{% set id = result[0].id_cliente if result else '0' %}
+{% set nome = result[0].nome if result else '' %}
+{% set cpf = result[0].cpf if result else '' %}
+{% set telefone = result[0].telefone if result else '' %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Cliente</h1>
-    <form name="formAdicionar" id="formAdicionar" action="" method="POST">
-        <div class="mb-3">
-            <label for="id" class="form-label">Código</label>
-            <input type="text" class="form-control" name="id" id="id" value="" placeholder="Código" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome Cliente</label>
-            <input type="text" class="form-control" name="nome" id="nome" value="" placeholder="Nome Cliente" maxlength="100" autofocus required>
-        </div>
-        <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone</label>
-            <input type="text" class="form-control" name="telefone" id="telefone" value="" placeholder="Telefone" maxlength="15" required>
-        </div>
-        <div class="mb-3">
-            <label for="cpf" class="form-label">CPF</label>
-            <input type="text" class="form-control" name="cpf" id="cpf" value="" placeholder="CPF" maxlength="14" required>
-        </div>
-        <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" name="senha" id="senha" value="" placeholder="Senha" required>
-        </div>
-        <div class="mb-3">
-            <label for="resenha" class="form-label">Confirme a Senha</label>
-            <input type="password" class="form-control" name="resenha" id="resenha" value="" placeholder="Confirme a Senha" required>
-        </div>
-        <button type='submit' class="btn btn-primary" name='salvarClienteDB' id='salvarClienteDB'>
-            <i class='fas fa-save'></i> Salvar
-        </button>
-    </form>
-</div>
+<h3 class="d-flex justify-content-center mb-5">Cliente - {{ "%s: %s" % ('Editar Registro', id) if result else 'Novo' }}
+</h3>
+<form name="{{ 'formEditar' if result else 'formAdicionar' }}" id="{{ 'formEditar' if result else 'formAdicionar' }}"
+    class="row was-validated" action="{{ url_for('cliente.edit') if result else url_for('cliente.insert') }}"
+    method="POST">
+
+    <label for="id" class="form-label">Código</label>
+    <input type="text" class="form-control" name="id" id="id" value="{{ id }}" placeholder="Código" readonly>
+
+    <label for="nome" class="form-label">Nome Cliente</label>
+    <input type="text" name="nome" class="form-control" id="nome" value="{{ nome }}" placeholder="Nome Cliente"
+        maxlength="100" autofocus required>
+
+    <label for="cpf" class="form-label">CPF</label>
+    <input type="text" name="cpf" id="cpf" class="form-control" value="{{ cpf }}" placeholder="CPF" maxlength="15"
+        required>
+
+    <label for="telefone" class="form-label">Telefone</label>
+    <input type="tel" name="telefone" id="telefone" class="form-control" value="{{ telefone }}" placeholder="Telefone"
+        maxlength="15" required>
+
+    <button type='submit' name='salvaClienteDB' id='salvaClienteDB' class="btn btn-outline-success btn-lg">
+        <i class='fas fa-save'></i> Salvar
+    </button>
+</form>
 {% endblock %}
