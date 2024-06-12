@@ -1,39 +1,88 @@
 {% extends "base.html" %}
-{% block title %}Produto{% endblock %}
+{% block title %}Produtos{% endblock %}
 {% block content %}
-<div class="container mt-5">
+
+<table class="table table-striped table-hover align-middle">
     <div class="d-flex flex-row justify-content-between align-items-center">
         <p class="h1"> Produtos</p>
         <a href="{{ url_for('produto.formProduto') }}" class="btn btn-primary">Novo Produto </a>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Valor Un.</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Deletar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if result %}
+        {% for row in result %}
+        <tr>
+            <th scope="row"> {{ row.id_produto }}</th>
+            <td> {{ row.nome }}</td>
+            <td> {{ row.descricao }}</td>
+            <td> {{ row.valor_unitario }}</td>
+            <td><img src="{{ row.foto }}" width="100" id="myImg"></td>
+            <td>
+                <form action="{{ url_for('produto.formEditProduto') }}" method="POST"
+                    name="formEdit{{ row['id_produto'] }}">
+                    <input type="hidden" name="id" value="{{ row['id_produto'] }}">
+                    <button type="submit" name="formEditProduto" class='btn'> <i class="fas fa-edit"></i></button>
+                </form>
+            </td>
+            <td>
+                <form method='POST' name='jsDelete' id='jsDelete'>
+                    <input type='hidden' name='id_produto' value="{{ row['id_produto'] }}">
+                    <button type='submit' name='formDeleteProduto' class='btn'><i class='fas fa-trash'></i></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}
 
-                <th scope="col">Código</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Imagem</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% if result %}
-            {% for row in result %}
-            <tr>
-                <th scope="row"> {{ row['id_produto'] }}</th>
-                <td> {{ row['nome'] }}</td>
-                <td> {{ row['descricao'] }}</td>
-                <td> {{ row['valor'] }}</td>
-                <td><img src="../../static/pastelcarne.jpg" alt="Imagem do Produto" class="img-thumbnail"
-                        style="width: 100px; height: auto;"></td>
-
-            </tr>
-            {% endfor %}
-            {% endif %}
-
-        </tbody>
-    </table>
-</div>
+{% block js %}
+<script>
+    $("form[name='jsDelete']").submit(function (e) {
+        // parar o envio para poder fazer manualmente
+        e.preventDefault();
+        Swal.fire({
+            title: '', text: "Deseja realmente excluir: " + $(e.target)[0][0].value, icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6', cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar', confirmButtonText: 'Sim'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deletarProduto($(e.target)[0][0].value); // Retorna o valor que está no id
+            }
+        })
+    })
+    function deletarProduto(idProduto) {
+        $.post($SCRIPT_ROOT + "{{ url_for('produto.delete') }}", {
+            id_produto: idProduto
+        }, function (data) {
+            if (!data.erro) {
+                Swal.fire({
+                    title: '', text: 'ID' + data.msg.id + ', ' + data.msg.msg, icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.replace($SCRIPT_ROOT + "{{ url_for('produto.formListaProduto') }}");
+                    }
+                })
+            }
+            else {
+                Swal.fire(data.msgErro.msg, data.msgErro.erro, "error");
+            }
+        }
+        )
+    }
+</script>
 {% endblock %}
