@@ -5,6 +5,8 @@
     <div class="d-flex flex-row justify-content-between align-items-center">
         <p class="h1"> Funcionários</p>
         <a href="{{ url_for('funcionario.formFuncionario') }}" class="btn btn-primary">Novo Funcionário </a>
+        <a href="{{ url_for('funcionario.gerar_pdf') }}" class="btn btn-secondary">Gerar PDF</a>
+    </div>
     </div>
 
     <table class="table mt-2">
