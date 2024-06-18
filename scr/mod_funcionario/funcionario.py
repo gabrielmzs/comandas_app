@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, make_response
 import requests
 from funcoes import Funcoes
 from mod_login.login import validaToken
 from settings import getHeadersAPI, ENDPOINT_FUNCIONARIO
+from xhtml2pdf import pisa
+import io
 
 bp_funcionario = Blueprint('funcionario', __name__, url_prefix="/funcionario", template_folder='templates')
 
@@ -11,20 +13,20 @@ bp_funcionario = Blueprint('funcionario', __name__, url_prefix="/funcionario", t
 @validaToken
 def formListaFuncionario():
     try:
-        response = requests.get(ENDPOINT_FUNCIONARIO,headers=getHeadersAPI())
+        response = requests.get(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI())
         result = response.json()
 
-        print(result) # para teste
-        print(response.status_code) # para teste
+        print(result)  # para teste
+        print(response.status_code)  # para teste
 
-        if (response.status_code != 200):
+        if response.status_code != 200:
             raise Exception(result)
-        
+
         return render_template('formListaFuncionario.html', result=result[0])
     except Exception as e:
         return render_template('formListaFuncionario.html', msgErro=e.args[0])
 
-@bp_funcionario.route('/form-funcionario/',)
+@bp_funcionario.route('/form-funcionario/')
 @validaToken
 def formFuncionario():
     return render_template('formFuncionario.html')
@@ -32,7 +34,7 @@ def formFuncionario():
 @bp_funcionario.route('/insert', methods=['POST'])
 def insert():
     try:
-# dados enviados via FORM
+        # dados enviados via FORM
         id_funcionario = request.form['id']
         nome = request.form['nome']
         matricula = request.form['matricula']
@@ -40,39 +42,39 @@ def insert():
         telefone = request.form['telefone']
         grupo = request.form['grupo']
         senha = Funcoes.get_password_hash(request.form['senha'])
-# monta o JSON para envio a API
+        # monta o JSON para envio a API
         payload = {'id_funcionario': id_funcionario, 'nome': nome, 'matricula': matricula, 'cpf': cpf, 'telefone': telefone, 'grupo': grupo, 'senha': senha}
-# executa o verbo POST da API e armazena seu retorno
+        # executa o verbo POST da API e armazena seu retorno
         response = requests.post(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI(), json=payload)
         result = response.json()
-        print(result) # [{'msg': 'Cadastrado com sucesso!', 'id': 13}, 200]
-        print(response.status_code) # 200
-        if (response.status_code != 200 or result[1] != 200):
+        print(result)  # [{'msg': 'Cadastrado com sucesso!', 'id': 13}, 200]
+        print(response.status_code)  # 200
+        if response.status_code != 200 or result[1] != 200:
             raise Exception(result)
         return redirect(url_for('funcionario.formListaFuncionario', msg=result[0]))
     except Exception as e:
         return render_template('formListaFuncionario.html', msgErro=e.args[0])
-    
+
 @bp_funcionario.route("/form-edit-funcionario", methods=['POST'])
 def formEditFuncionario():
     try:
-# ID enviado via FORM
+        # ID enviado via FORM
         id_funcionario = request.form['id']
-# executa o verbo GET da API buscando somente o funcionário selecionado,
-# obtendo o JSON do retorno
+        # executa o verbo GET da API buscando somente o funcionário selecionado,
+        # obtendo o JSON do retorno
         response = requests.get(ENDPOINT_FUNCIONARIO + id_funcionario, headers=getHeadersAPI())
         result = response.json()
-        if (response.status_code != 200):
+        if response.status_code != 200:
             raise Exception(result)
-# renderiza o form passando os dados retornados
+        # renderiza o form passando os dados retornados
         return render_template('formFuncionario.html', result=result[0])
     except Exception as e:
         return render_template('formListaFuncionario.html', msgErro=e.args[0])
-    
+
 @bp_funcionario.route('/edit', methods=['POST'])
 def edit():
     try:
-# dados enviados via FORM
+        # dados enviados via FORM
         id_funcionario = request.form['id']
         nome = request.form['nome']
         matricula = request.form['matricula']
@@ -81,17 +83,17 @@ def edit():
         grupo = request.form['grupo']
         senha = Funcoes.get_password_hash(request.form['senha'])
 
-# monta o JSON para envio a API
+        # monta o JSON para envio a API
         payload = {'id_funcionario': id_funcionario, 'nome': nome, 'matricula': matricula, 'cpf': cpf, 'telefone': telefone, 'grupo': grupo, 'senha': senha}
-# executa o verbo PUT da API e armazena seu retorno
+        # executa o verbo PUT da API e armazena seu retorno
         response = requests.put(ENDPOINT_FUNCIONARIO + id_funcionario, headers=getHeadersAPI(), json=payload)
         result = response.json()
-        if (response.status_code != 200 or result[1] != 200):
+        if response.status_code != 200 or result[1] != 200:
             raise Exception(result)
         return redirect(url_for('funcionario.formListaFuncionario', msg=result[0]))
     except Exception as e:
         return render_template('formListaFuncionario.html', msgErro=e.args[0])
-    
+
 @bp_funcionario.route('/delete', methods=['POST'])
 def delete():
     try:
@@ -102,10 +104,28 @@ def delete():
         response = requests.delete(ENDPOINT_FUNCIONARIO + id_funcionario, headers=getHeadersAPI())
         result = response.json()
 
-        if (response.status_code != 200 or result[1] != 200):
+        if response.status_code != 200 or result[1] != 200:
             raise Exception(result)
         
         return jsonify(erro=False, msg=result[0])
     
     except Exception as e:
         return jsonify(erro=True, msgErro=e.args[0])
+
+@bp_funcionario.route('/gerar_pdf', methods=['GET'])
+@validaToken
+def gerar_pdf():
+    try:
+        response = requests.get(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI())
+        result = response.json()
+
+        if response.status_code != 200:
+            raise Exception(result)
+
+        html = render_template('funcionarios_pdf.html', result=result[0])
+        pdf = io.BytesIO()
+        pisa.CreatePDF(io.BytesIO(html.encode('UTF-8')), dest=pdf)
+        pdf.seek(0)
+        return make_response(pdf.getvalue(), 200, {'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename=funcionarios.pdf'})
+    except Exception as e:
+        return render_template('formListaFuncionario.html', msgErro=e.args[0])

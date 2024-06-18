@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Funcionários</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Funcionários</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Matricula</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Grupo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+            <tr>
+                <td>{{ row['id_funcionario'] }}</td>
+                <td>{{ row['nome'] }}</td>
+                <td>{{ row['matricula'] }}</td>
+                <td>{{ row['cpf'] }}</td>
+                <td>{{ row['telefone'] }}</td>
+                <td>{{ row['grupo'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
